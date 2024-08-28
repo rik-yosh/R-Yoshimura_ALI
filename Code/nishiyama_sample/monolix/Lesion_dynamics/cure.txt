@@ -1,0 +1,31 @@
+DESCRIPTION:
+See "Modeling lesion transition dynamics" in the text for details of this mathematical model.
+
+
+[LONGITUDINAL]
+input = {tau,g,c,a1,a2,a3,d,tau1,tau2,tau3}
+
+EQUATION:
+odeType = stiff
+t0=-(tau)
+L1_0=1
+L2_0=0
+L3_0=0
+L4_0=0
+
+t3=tau3
+t2=tau2+t3
+t1=tau1+t2
+
+ddt_L1 = g*exp(-c*t)*L1-a1*(1-exp(-t1*t))*L1
+ddt_L2 = a1*(1-exp(-t1*t))*L1 - a2*(1-exp(-t2*t))*L2
+ddt_L3 = a2*(1-exp(-t2*t))*L2 - a3*(1-exp(-t3*t))*L3
+ddt_L4 = a3*(1-exp(-t3*t))*L3 - d*L4
+
+mL1=max((L1),0)
+mL2=max((L2),0)
+mL3=max((L3),0)
+mL4=max((L4),0)
+
+OUTPUT:
+output = {mL1,mL2,mL3,mL4}

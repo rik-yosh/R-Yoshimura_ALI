@@ -1,0 +1,23 @@
+DESCRIPTION:
+See "Modeling decay dynamics of viral load" in the text for details of this mathematical model.
+
+[LONGITUDINAL]
+input = {V0,delta}
+
+EQUATION:
+odeType = stiff
+
+t0=0
+V_0= V0
+
+
+; Parameter transformations 
+
+ddt_V = -delta*V
+
+;
+Vaa=max(log10((V)),0)
+
+
+OUTPUT:
+output = {Vaa}

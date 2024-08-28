@@ -1,0 +1,11 @@
+
+[LONGITUDINAL]
+input = {g,d,P0}
+
+EQUATION:
+
+P_0=P0
+ddt_P = g - d*P
+
+OUTPUT: 
+output = {P}

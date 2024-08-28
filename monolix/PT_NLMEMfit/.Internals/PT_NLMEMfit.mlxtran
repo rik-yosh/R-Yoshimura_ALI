@@ -1,0 +1,61 @@
+<DATAFILE>
+
+[FILEINFO]
+file='../../../data/ChanpionData/dataloading/240214_df_TS_Long.csv'
+delimiter = comma
+header={id_new, BloodColectionDate, Plt, PT_percentage, PTINR, PTs, Alb, BUN, Cre, Tbil, Dbil, AST, ALT, LDH, NH3, Yesterday_FFPprescribing_U, Yesterday_rhTM_NotDone}
+
+[CONTENT]
+id_new = {use=identifier}
+BloodColectionDate = {use=time}
+PT_percentage = {use=observation, type=continuous}
+
+[SETTINGS]
+dataType = {'PT_percentage'=plasma}
+
+<MODEL>
+
+[INDIVIDUAL]
+input = {P0_pop, omega_P0, d_pop, omega_d, g_pop, omega_g}
+
+DEFINITION:
+P0 = {distribution=logNormal, typical=P0_pop, sd=omega_P0}
+d = {distribution=logNormal, typical=d_pop, sd=omega_d}
+g = {distribution=logNormal, typical=g_pop, sd=omega_g}
+
+[LONGITUDINAL]
+input = {a, b}
+
+file = '../../dPT_ee_g_pp_d_tt_PT.txt'
+
+DEFINITION:
+PT_percentage = {distribution=normal, prediction=P, errorModel=combined1(a, b)}
+
+<FIT>
+data = 'PT_percentage'
+model = PT_percentage
+
+<PARAMETER>
+P0_pop = {value=41.08, method=MLE}
+a = {value=1, method=MLE}
+b = {value=0.3, method=MLE}
+c = {value=1, method=FIXED}
+d_pop = {value=0.4, method=MLE}
+g_pop = {value=31.6, method=MLE}
+omega_P0 = {value=1, method=MLE}
+omega_d = {value=1, method=MLE}
+omega_g = {value=1, method=MLE}
+
+<MONOLIX>
+
+[TASKS]
+populationParameters()
+individualParameters(method = {conditionalMean, conditionalMode })
+fim(method = StochasticApproximation)
+logLikelihood(method = ImportanceSampling)
+plotResult(method = {indfits, parameterdistribution, covariancemodeldiagnosis, covariatemodeldiagnosis, obspred, vpc, residualsscatter, residualsdistribution, randomeffects, saemresults })
+
+[SETTINGS]
+GLOBAL:
+exportpath = '../'
+
