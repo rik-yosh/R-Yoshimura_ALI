@@ -5,7 +5,7 @@ This code is an analysis code for the paper "Stratifying and predicting progress
 Mathematical models describing the PT%　dynamics are stored in monolix files.
 See (https://lixoft.com/products/monolix/) for parameter estimation.
 
-The complete dataset used in this study is available from the corresponding author upon reasonable request.
+The complete dataset used in this study is available from "Data/miceData/df_afterMice_1".
 
 ## monolix
 'monolix/timeSeriesPT.csv' is the time-series PT% of the patients with ALI/ALF.
